@@ -6,6 +6,8 @@ const Goal = require('../models/goalModel')
 //@route    Get /api/goals
 //@access   Private
 const getGoals = (req,res) => {
+    const goals = await Goal.find()
+    const goals = await Goal.find({ user: req.user.id })
     const getGoals = asyncHandler(async(req,res) => {
         res.status(200).json({message: 'Get Goals'})
         // @desc    Get Goals
@@ -24,7 +26,12 @@ const setGoal = asyncHandler (async(req, res)=>{
         res.status(400)
          throw new Error('Please add a text field')
         }
-  
+        const goal = await Goal.create({
+            text: req.body.text,
+            user: req.user.id
+    
+        })
+    
 
 //@desc     Set goals
 //@route    Get /api/goals
